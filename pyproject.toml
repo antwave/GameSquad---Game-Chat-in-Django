@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "gamesquad"
+version = "0.1.0"
+description = "Find your gaming crew!"
+authors = ["Antonio <antw4ve@icloud.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+Django = "^5.0.4"
+poetry = "^1.8.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
