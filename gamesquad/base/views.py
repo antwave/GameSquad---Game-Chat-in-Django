@@ -68,12 +68,16 @@ def home(request):
     
     games = RoomGame.objects.all()
     room_count = rooms.count()
-    context = {'rooms': rooms, 'games': games, 'room_count':room_count}
+
+    sent_messages = Message.objects.filter(Q(room__game__name__icontains=q))
+
+    context = {'rooms': rooms, 'games': games,
+                'room_count':room_count, 'sent_messages':sent_messages}
     return render(request, 'base/home.html', context)
 
 def room(request, pk):
     room = Room.objects.get(id=pk)
-    room_messages = room.message_set.all().order_by('-created')
+    room_messages = room.message_set.all()
     participants = room.participants.all()
     if request.method == 'POST':
         message = Message.objects.create(
@@ -141,3 +145,9 @@ def deleteMessage(request, pk):
         return redirect('home')
     context = {'object': msg}
     return render(request, 'base/delete.html', context)
+
+
+
+# TODO:
+#     - Fix delete message routing
+#     - Remove user from conversation when last message is deleted

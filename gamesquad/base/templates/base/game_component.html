@@ -1,0 +1,12 @@
+<h3>Browse Games</h3>
+<hr />
+
+<div>
+    <a href="{% url 'home' %}">All</a>
+</div>
+
+{% for game in games %}
+    <div>
+        <a href="{% url 'home' %}?q={{game.name}}">{{game}}</a>
+    </div>
+{% endfor %}
