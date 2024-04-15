@@ -91,35 +91,53 @@ def room(request, pk):
     context = {'room' : room, 'room_messages': room_messages, 'participants':participants}
     return render(request, 'base/room.html', context)
 
+def userProfile(request, pk):
+    user = User.objects.get(id=pk)
+    rooms = user.room_set.all()
+    user_messages = user.message_set.all()
+    games = RoomGame.objects.all()
+    context = {'user':user, 'rooms':rooms,
+               'games': games, 'sent_messages':user_messages}
+    return render(request, 'base/user_profile.html', context)
+
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
+    games = RoomGame.objects.all()
     if request.method == 'POST':
-        form = RoomForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    context = {'form': form}
+        game_name = request.POST.get('game')
+        game, created = RoomGame.objects.get_or_create(name=game_name)
+        Room.objects.create(
+            host=request.user,
+            game=game,
+            name = request.POST.get('name'),
+            description = request.POST.get('description')
+        )
+        return redirect('home')
+    context = {'form': form, 'games':games}
     return render(request, 'base/room_form.html', context)
 
 @login_required(login_url='login')
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
-
+    games = RoomGame.objects.all()
     if request.user != room.host:
         return HttpResponse('Only the room host can edit the room')
 
     if request.method == 'POST':
-        form = RoomForm(request.POST, instance = room)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
+        game_name = request.POST.get('game')
+        game, created = RoomGame.objects.get_or_create(name=game_name)
+        room.name = request.POST.get('name')
+        room.game = game
+        room.description = request.POST.get('description')
+        room.save()
+        return redirect('home')
 
-    context = {'form': form}
+    context = {'form': form, 'games':games, 'room': room}
     return render(request, 'base/room_form.html', context)
 
-@login_required
+@login_required(login_url='login')
 def deleteRoom(request, pk):
     room = Room.objects.get(id=pk)
 
@@ -132,7 +150,7 @@ def deleteRoom(request, pk):
     context = {'object': room}
     return render(request, 'base/delete.html', context)
 
-@login_required
+@login_required(login_url='login')
 def deleteMessage(request, pk):
     msg = Message.objects.get(id=pk)
 
