@@ -1,8 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Room, RoomGame, Message
+from .models import Room, Game, Message
 
 admin.site.register(Room)
-admin.site.register(RoomGame)
+admin.site.register(Game)
 admin.site.register(Message)

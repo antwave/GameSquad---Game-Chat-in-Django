@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
-from .models import Room, RoomGame, Message
+from .models import Room, Game, Message
 from .forms import RoomForm, UserForm
 
 
@@ -66,7 +66,7 @@ def home(request):
         Q(description__contains=q)
         )
     
-    games = RoomGame.objects.all()
+    games = Game.objects.all()[0:5]
     room_count = rooms.count()
 
     sent_messages = Message.objects.filter(Q(room__game__name__icontains=q))
@@ -95,7 +95,7 @@ def userProfile(request, pk):
     user = User.objects.get(id=pk)
     rooms = user.room_set.all()
     user_messages = user.message_set.all()
-    games = RoomGame.objects.all()
+    games = Game.objects.all()
     context = {'user':user, 'rooms':rooms,
                'games': games, 'sent_messages':user_messages}
     return render(request, 'base/user_profile.html', context)
@@ -103,10 +103,10 @@ def userProfile(request, pk):
 @login_required(login_url='login')
 def createRoom(request):
     form = RoomForm()
-    games = RoomGame.objects.all()
+    games = Game.objects.all()
     if request.method == 'POST':
         game_name = request.POST.get('game')
-        game, created = RoomGame.objects.get_or_create(name=game_name)
+        game, created = Game.objects.get_or_create(name=game_name)
         Room.objects.create(
             host=request.user,
             game=game,
@@ -121,13 +121,13 @@ def createRoom(request):
 def updateRoom(request, pk):
     room = Room.objects.get(id=pk)
     form = RoomForm(instance=room)
-    games = RoomGame.objects.all()
+    games = Game.objects.all()
     if request.user != room.host:
         return HttpResponse('Only the room host can edit the room')
 
     if request.method == 'POST':
         game_name = request.POST.get('game')
-        game, created = RoomGame.objects.get_or_create(name=game_name)
+        game, created = Game.objects.get_or_create(name=game_name)
         room.name = request.POST.get('name')
         room.game = game
         room.description = request.POST.get('description')
@@ -174,8 +174,18 @@ def editUser(request):
         if form.is_valid():
             form.save()
             return redirect('user-profile', pk = user.id)
-
     return render(request, 'base/edit-user.html', {'form': form})
+
+def gamesPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+    games = Game.objects.filter(name__icontains=q)
+    context = {'games': games}
+    return render(request, 'base/games.html', context)
+
+def activityPage(request):
+    sent_messages = Message.objects.filter(Q(room__game__name__icontains=q))
+    context = {'sent_messages': sent_messages}
+    return render(request, 'base/activity.html', context)
 
 # TODO:
 #     - Fix delete message routing
