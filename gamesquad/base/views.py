@@ -183,6 +183,7 @@ def gamesPage(request):
     return render(request, 'base/games.html', context)
 
 def activityPage(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
     sent_messages = Message.objects.filter(Q(room__game__name__icontains=q))
     context = {'sent_messages': sent_messages}
     return render(request, 'base/activity.html', context)
