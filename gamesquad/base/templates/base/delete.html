@@ -19,16 +19,15 @@
                 </div>
             </div>
             <div class="layout__body">
-                <form class="form" method="POST "action="">
+                <form class="form" method="POST" action="">
                     {% csrf_token %}
                     <div class="form__group">
                         <p>Are you sure you want to delete "{{object}}"?</p>
                     </div>
-
                     <div class="for__group">
                         <input class="btn btn--main" type="submit" value="Confirm" />
+                        <a class="btn btn--dark" href="{{request.META.HTTP_REFERER}}">Cancel</a>
                     </div>
-
                 </form>
             </div>
         </div>

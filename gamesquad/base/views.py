@@ -3,11 +3,10 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.forms import UserCreationForm
 from accounts.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Room, Game, Message
-from .forms import RoomForm, UserForm, ProfileForm
+from .forms import RoomForm, UserForm, ProfileForm, CustomUserCreationForm
 
 
 def loginView(request):
@@ -42,10 +41,10 @@ def logoutView(request):
 
 def registerView(request):
     page = "register"
-    form = UserCreationForm()
+    form = CustomUserCreationForm()
 
     if request.method == "POST":
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.username = user.username.lower()
@@ -169,14 +168,13 @@ def deleteRoom(request, pk):
 @login_required(login_url="login")
 def deleteMessage(request, pk):
     msg = Message.objects.get(id=pk)
-
+    room_id = msg.room.id
     if request.user != msg.user:
         return HttpResponse("Only the room host can delete the room")
 
     if request.method == "POST":
-        room_id = msg.room.id
         msg.delete()
-        return redirect("home")
+        return redirect("room", room_id)
     context = {"object": msg}
     return render(request, "base/delete.html", context)
 
