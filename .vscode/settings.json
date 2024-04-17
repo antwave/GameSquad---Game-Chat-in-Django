@@ -2,7 +2,7 @@
   "emmet.includeLanguages": {
     "django-html": "html"
   },
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.typeCheckingMode": "off",
 
   "[python]": {
     "editor.defaultFormatter": "ms-python.black-formatter"

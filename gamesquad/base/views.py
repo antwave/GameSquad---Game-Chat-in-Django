@@ -4,10 +4,10 @@ from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from accounts.models import User
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Room, Game, Message
-from .forms import RoomForm, UserForm
+from .forms import RoomForm, UserForm, ProfileForm
 
 
 def loginView(request):
@@ -16,15 +16,15 @@ def loginView(request):
         return redirect("home")
 
     if request.method == "POST":
-        username = request.POST.get("username").lower()
+        email = request.POST.get("email").lower()
         password = request.POST.get("password")
 
         try:
-            user = User.objects.get(username=username)
+            user = User.objects.get(email=email)
         except:
             messages.error(request, "User does not exist")
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
             return redirect("home")
@@ -184,10 +184,11 @@ def deleteMessage(request, pk):
 @login_required(login_url="login")
 def editUser(request):
     user = request.user
-    form = UserForm(instance=user)
+    form = ProfileForm(instance=user.profile)
+    # form.order_fields(field_order=["avatar", "username", "email", "bio"])
 
     if request.method == "POST":
-        form = UserForm(request.POST, instance=user)
+        form = ProfileForm(request.POST, request.FILES, instance=user.profile)
         if form.is_valid():
             form.save()
             return redirect("user-profile", pk=user.id)

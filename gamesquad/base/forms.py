@@ -1,15 +1,36 @@
-from django.forms import ModelForm
-from .models import Room
-from django.contrib.auth.models import User
+from django.forms import ModelForm, EmailField, CharField
+from .models import Room, Profile
+from accounts.models import User
 
 
 class RoomForm(ModelForm):
     class Meta:
         model = Room
-        fields = '__all__'
-        exclude = ['host', 'participants']
+        fields = "__all__"
+        exclude = ["host", "participants"]
+
 
 class UserForm(ModelForm):
     class Meta:
         model = User
-        fields = ['username', 'email']
+        fields = ["username", "email"]
+
+
+class ProfileForm(ModelForm):
+
+    class Meta:
+        model = Profile
+        fields = ["avatar", "bio"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["username"] = CharField(initial=self.instance.user.username)
+        self.fields["email"] = EmailField(initial=self.instance.user.email)
+        self.order_fields(field_order=["avatar", "username", "email", "bio"])
+
+    def save(self, commit=True):
+        user = User.objects.get(id=self.instance.user.id)
+        user.username = self["username"].value()
+        user.email = self["email"].value()
+        user.save()
+        return super(ProfileForm, self).save(commit=commit)
