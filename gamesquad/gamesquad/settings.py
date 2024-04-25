@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure--4^#m(9^@dv@feou1!hv_%@-wi_x7i8=l88jl(7fpy08%qztop
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".antwave.online"]
 
 
 # Application definition
