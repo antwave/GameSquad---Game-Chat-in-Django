@@ -16,6 +16,8 @@ services:
       - 8000:8000
     volumes:
       - ningx_static:/nignx_static
+    env_file:
+      - .env
     develop:
       watch:
         - action: rebuild
