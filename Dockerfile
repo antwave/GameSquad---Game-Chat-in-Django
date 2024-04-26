@@ -65,4 +65,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-ENTRYPOINT [ "python3", "gamesquad/manage.py", "runserver", "0.0.0.0:8000" ]
+ENTRYPOINT [ "sh", "/entrypoint.sh" ]

@@ -14,10 +14,14 @@ services:
     container_name: gamesquad
     ports:
       - 8000:8000
+    volumes:
+      - ningx_static:/nignx_static
     develop:
       watch:
         - action: rebuild
           path: .
+volumes:
+  nginx_static:
     #command: python3 gamesquad/manage.py runserver 0.0.0.0:8000
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
