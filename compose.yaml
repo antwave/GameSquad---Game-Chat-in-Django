@@ -8,7 +8,7 @@
 # database or a cache. For examples, see the Awesome Compose repository:
 # https://github.com/docker/awesome-compose
 services:
-  web:
+  gamesquad:
     build:
       context: .
     container_name: gamesquad
@@ -16,14 +16,16 @@ services:
       - 8000:8000
     volumes:
       - ningx_static:/nignx_static
+      - gamesquad_env:/env
     env_file:
-      - .env
+      - env/.env
     develop:
       watch:
         - action: rebuild
           path: .
 volumes:
   nginx_static:
+  gamesquad_env:
     #command: python3 gamesquad/manage.py runserver 0.0.0.0:8000
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to
