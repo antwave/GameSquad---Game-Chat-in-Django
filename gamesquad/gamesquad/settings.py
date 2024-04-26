@@ -23,9 +23,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure--4^#m(9^@dv@feou1!hv_%@-wi_x7i8=l88jl(7fpy08%qztop"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = [".antwave.online"]
+ALLOWED_HOSTS = [
+    ".antwave.online",
+]
 
 
 # Application definition
@@ -36,8 +38,9 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
-    "django.contrib.staticfiles",
     # local
+    "daphne",
+    "django.contrib.staticfiles",
     "base.apps.BaseConfig",
     "rest_framework",
     "corsheaders",
@@ -75,6 +78,7 @@ TEMPLATES = [
     },
 ]
 
+ASGI_APPLICATION = "gamesquad.asgi.application"
 WSGI_APPLICATION = "gamesquad.wsgi.application"
 
 
@@ -124,13 +128,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-MEDIA_URL = "/images/"
+MEDIA_URL = "media/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-MEDIA_ROOT = BASE_DIR / "static/images"
+STATIC_ROOT = "nginx_static/static"
+MEDIA_ROOT = BASE_DIR / "nginx_static/media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
