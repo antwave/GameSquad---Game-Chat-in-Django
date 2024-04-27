@@ -55,7 +55,7 @@ ENV VIRTUAL_ENV=/app/.venv \
 #COPY ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 # Switch to the non-privileged user to run the application.
-USER appuser
+#USER appuser
 
 COPY gamesquad ./gamesquad
 # Copy the source code into the container.
