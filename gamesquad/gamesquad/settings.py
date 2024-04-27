@@ -130,15 +130,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
-MEDIA_URL = "media/"
+STATIC_URL = "gamesquad/static/"
+MEDIA_URL = "gamesquad/media/"
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-STATIC_ROOT = "nginx_static/static"
-MEDIA_ROOT = BASE_DIR / "nginx_static/media"
+STATIC_ROOT = "nginx_static/gamesquad/static"
+MEDIA_ROOT = "nginx_static/gamesquad/media"
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
