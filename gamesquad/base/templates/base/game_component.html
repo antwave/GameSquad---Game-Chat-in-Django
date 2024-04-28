@@ -8,7 +8,7 @@
       </li>
       {% for game in games %}
       <li>
-        <a href="{% url 'home' %}?q='{{game.name}}'">{{game.name}}<span>{{game.room_set.all.count}}</span></a>
+        <a href="{% url 'home' %}?q={{game.name}}">{{game.name}}<span>{{game.room_set.all.count}}</span></a>
       </li>
       {% endfor %}
     </ul>

@@ -64,10 +64,8 @@ def home(request):
     rooms = Room.objects.filter(
         Q(game__name__contains=q) | Q(name__contains=q) | Q(description__contains=q)
     )
-
     games = Game.objects.all()[0:5]
     room_count = rooms.count()
-
     sent_messages = Message.objects.filter(Q(room__game__name__icontains=q))
 
     context = {
