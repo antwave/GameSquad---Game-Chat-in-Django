@@ -145,20 +145,6 @@ a {
   object-position: center;
 }
 
-.avatar::after {
-  content: "";
-  display: block;
-  position: absolute;
-  background-color: var(--color-gray);
-  z-index: 111;
-  border-radius: 50%;
-  border: 0.3rem solid var(--color-dark);
-}
-
-.avatar.active::after {
-  background-color: var(--color-success);
-}
-
 .avatar.avatar--small img {
   width: 2.8rem;
   height: 2.8rem;
@@ -1162,4 +1148,23 @@ a {
   font-weight: 500;
   color: var(--color-main);
   font-weight: 1.4rem;
+}
+
+/**********************************************/
+
+#github-banner {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-color: var(--color-dark-light);
+  justify-content: center;
+  transition: 0.2s ease-out;
+}
+
+#github-close:hover {
+  cursor: pointer;
+}
+
+#github-banner-logo {
+  border: 2px solid transparent;
 }

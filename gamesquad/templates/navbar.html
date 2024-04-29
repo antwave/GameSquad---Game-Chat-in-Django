@@ -68,6 +68,21 @@
     </nav>
   </div>
 </header>
+<div id="github-banner">
+  <p>Enjoying GameSquad? Check out how it was built on&ensp;
+    <div id="github-banner-logo" class="avatar avatar--small">
+      <img src="/gamesquad/static/images/github.png" />
+    </div>
+    <a href="https://github.com/antwave/GameSquad---Game-Chat-in-Django">Github</a>&ensp;:)&ensp;
+  </p>
+  <svg id="github-close" version="1.1" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 32 32" 
+  style="fill:white;" onclick="document.body.removeChild(this.parentNode)">
+    <title>remove</title>
+    <path
+      d="M27.314 6.019l-1.333-1.333-9.98 9.981-9.981-9.981-1.333 1.333 9.981 9.981-9.981 9.98 1.333 1.333 9.981-9.98 9.98 9.98 1.333-1.333-9.98-9.98 9.98-9.981z"
+    ></path>
+  </svg>
+</div>
 
 {% comment %} {% if request.user.is_authenticated %}
 <p>Hello {{request.user}}</p>
