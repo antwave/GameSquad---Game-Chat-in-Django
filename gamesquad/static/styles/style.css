@@ -1154,11 +1154,10 @@ a {
 
 #github-banner {
   display: flex;
-  align-items: center;
   text-align: center;
   background-color: var(--color-dark-light);
   justify-content: center;
-  transition: 0.2s ease-out;
+  padding-bottom: 3px;
 }
 
 #github-close:hover {
@@ -1166,5 +1165,7 @@ a {
 }
 
 #github-banner-logo {
-  border: 2px solid transparent;
+  margin-top: 3px;
+  width: 2rem;
+  height: 2rem;
 }
